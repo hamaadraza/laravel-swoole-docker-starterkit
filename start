@@ -1,0 +1,8 @@
+#!/bin/bash
+systemctl restart supervisor >> /dev/null 2>&1
+supervisorctl reread >> /dev/null 2>&1
+supervisorctl update >> /dev/null 2>&1
+nohup redis-server &
+php /var/www/artisan octane:start --server=swoole --host=0.0.0.0 --port=8000
+
+exec "$@"
